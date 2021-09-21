@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.commit
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
@@ -33,14 +34,22 @@ class HomeFragment : Fragment(), View.OnClickListener {
         // (2)
         if (v?.id == R.id.btn_category) {
             val mCategoryFragment = CategoryFragment()
+            // Use kotlinX :
             val mFragmentManager = parentFragmentManager
-            mFragmentManager?.beginTransaction()?.apply {
-                replace(R.id.frame_container, mCategoryFragment, CategoryFragment::class.java.simpleName)
-                // If you remove (addToBackStack(null)) the fragment will not have stack
-                // and if you klik Back button the app will close because the fragment not have stack
+            mFragmentManager.commit {
                 addToBackStack(null)
-                commit()
+                replace(R.id.frame_container, mCategoryFragment, CategoryFragment::class.java.simpleName)
             }
+
+//            Before use kotlinX :
+//            val mFragmentManager = parentFragmentManager
+//            mFragmentManager?.beginTransaction()?.apply {
+//                replace(R.id.frame_container, mCategoryFragment, CategoryFragment::class.java.simpleName)
+//                // If you remove (addToBackStack(null)) the fragment will not have stack
+//                // and if you klik Back button the app will close because the fragment not have stack
+//                addToBackStack(null)
+//                commit()
+//            }
         }
     }
 }
